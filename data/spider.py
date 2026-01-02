@@ -6,16 +6,16 @@ import os
 
 load_dotenv()
 
-# CSV file path - use absolute path
+#csv文件路径
 script_dir = os.path.dirname(os.path.abspath(__file__))
 csv_file = os.path.join(script_dir, 'store_data.csv')
 
-# First, clear the CSV file and write headers
+#创建csv表头
 with open(csv_file, 'w', newline='', encoding='utf-8-sig') as csvfile:
     writer = csv.writer(csvfile)
     writer.writerow(['Store Name', 'Address'])
 
-# URL of the website to scrape
+#日本全国47都道府县循环爬取
 for a in range(0, 47):
     url = "https://location.am-all.net/alm/location?gm=96&ct=1000&at={a}&lang=en".format(a=a)
     
