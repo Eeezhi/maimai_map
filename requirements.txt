@@ -1,1 +1,4 @@
 requests_html
+beautifulsoup4
+python-dotenv
+lxml_html_clean
