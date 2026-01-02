@@ -93,7 +93,7 @@ def geocode_addresses(df, api_key):
 
 def main():
     st.set_page_config(page_title="Maimai 店铺地图", layout="wide")
-    st.title("🎮 Maimai Deluxe 店铺地图")
+    st.title("🎮 Maimai DX 店铺地图")
     
     # 加载数据
     store_df, has_coords = load_store_data()
@@ -104,7 +104,7 @@ def main():
     
     #st.success(f"已加载 {len(store_df)} 家店铺")
     
-    # 检查URL查询参数中是否有浏览器位置，如果有自动加载
+    # 检查URL查询参数中是否有浏览器位置，如果有自动加载到session_state
     query_params = st.query_params
     if 'browser_lat' in query_params and 'browser_lon' in query_params:
         try:
@@ -177,20 +177,25 @@ def main():
                 """
             components.html(geolocation_js, height=80)
             
+            # 从 session_state 获取当前位置信息（JavaScript通过URL参数设置）
+            # 如果没有位置，使用默认值
+            current_lat = st.session_state.get('user_location', {}).get('lat', 35.6762)
+            current_lon = st.session_state.get('user_location', {}).get('lon', 139.6503)
+            
             # 添加手动输入功能
             with st.expander("✏️ 手动输入位置"):
                 col1, col2 = st.columns(2)
                 with col1:
                     user_lat = st.number_input(
                         "我的纬度", 
-                        value=35.6762, 
+                        value=current_lat, 
                         format="%.6f", 
                         key="manual_lat"
                     )
                 with col2:
                     user_lon = st.number_input(
                         "我的经度", 
-                        value=139.6503, 
+                        value=current_lon, 
                         format="%.6f", 
                         key="manual_lon"
                     )
